@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPA Flashcard</title>
-    <!-- Link corrigido para o CSS (usando RAW para evitar erro de Stylesheet) -->
-    <link rel="stylesheet" href="https://githubusercontent.com">
+    <title>IPA App - Rommaka</title>
     <style>
-        /* Estilos de emergência caso o CSS demore a carregar */
-        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; text-align: center; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .simbolo { font-size: 80px; color: #6366f1; margin: 0; font-weight: bold; }
+        :root {
+            --bg: #0f172a;
+            --primary: #6366f1;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+        }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; text-align: center; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .simbolo { font-size: 80px; color: var(--primary); margin: 0; font-weight: bold; }
         .palavra { font-size: 24px; margin: 15px 0; letter-spacing: 2px; }
-        button { background: #6366f1; color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
+        .instrucao { font-size: 14px; opacity: 0.7; margin-bottom: 25px; line-height: 1.4; }
+        button { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        button:hover { opacity: 0.8; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -25,23 +31,22 @@
 
     <script>
         async function load() {
-            // Link RAW: Ignora bloqueios de segurança (CORS) do navegador
+            // LINK CORRIGIDO ABAIXO:
             const url = 'https://githubusercontent.com';
             
             try {
                 const res = await fetch(url);
-                if (!res.ok) throw new Error("Erro ao carregar");
+                if (!res.ok) throw new Error('Erro ao baixar');
                 const data = await res.json();
                 
-                // Preenche os dados
                 document.getElementById('s').innerText = data.simbolo;
                 document.getElementById('p').innerText = data.palavra;
                 document.getElementById('i').innerText = data.instrucao;
                 window.a = data.audio;
-                
             } catch (err) {
                 document.getElementById('p').innerText = "Erro de Conexão";
-                console.error("Detalhes do erro:", err);
+                document.getElementById('i').innerText = "Verifique o arquivo database.json no Core.";
+                console.error(err);
             }
         }
         load();
