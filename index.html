@@ -2,13 +2,16 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>IPA App</title>
-    <!-- Link corrigido para o CSS -->
-    <link rel="stylesheet" href="https://github.io">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPA Flashcard</title>
+    <!-- Link corrigido para o CSS (usando RAW para evitar erro de Stylesheet) -->
+    <link rel="stylesheet" href="https://githubusercontent.com">
     <style>
+        /* Estilos de emergência caso o CSS demore a carregar */
         body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; text-align: center; width: 280px; }
-        .simbolo { font-size: 80px; color: #6366f1; margin: 0; }
+        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; text-align: center; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .simbolo { font-size: 80px; color: #6366f1; margin: 0; font-weight: bold; }
+        .palavra { font-size: 24px; margin: 15px 0; letter-spacing: 2px; }
         button { background: #6366f1; color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
     </style>
 </head>
@@ -17,24 +20,28 @@
         <div id="s" class="simbolo">...</div>
         <h2 id="p">Carregando...</h2>
         <p id="i"></p>
-        <button onclick="new Audio(window.a).play()">OUVIR</button>
+        <button onclick="new Audio(window.a).play()">OUVIR PRONÚNCIA</button>
     </div>
 
     <script>
         async function load() {
-            // Link que ignora bloqueios de segurança do navegador
+            // Link RAW: Ignora bloqueios de segurança (CORS) do navegador
             const url = 'https://githubusercontent.com';
+            
             try {
                 const res = await fetch(url);
+                if (!res.ok) throw new Error("Erro ao carregar");
                 const data = await res.json();
                 
+                // Preenche os dados
                 document.getElementById('s').innerText = data.simbolo;
                 document.getElementById('p').innerText = data.palavra;
                 document.getElementById('i').innerText = data.instrucao;
                 window.a = data.audio;
+                
             } catch (err) {
-                document.getElementById('p').innerText = "Erro de conexão";
-                console.error(err);
+                document.getElementById('p').innerText = "Erro de Conexão";
+                console.error("Detalhes do erro:", err);
             }
         }
         load();
