@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>IPA App</title>
+    <!-- Link corrigido para o CSS -->
+    <link rel="stylesheet" href="https://github.io">
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; text-align: center; width: 280px; }
+        .simbolo { font-size: 80px; color: #6366f1; margin: 0; }
+        button { background: #6366f1; color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="s" class="simbolo">...</div>
+        <h2 id="p">Carregando...</h2>
+        <p id="i"></p>
+        <button onclick="new Audio(window.a).play()">OUVIR</button>
+    </div>
+
+    <script>
+        async function load() {
+            // Link que ignora bloqueios de segurança do navegador
+            const url = 'https://github.io';
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                document.getElementById('s').innerText = data.simbolo;
+                document.getElementById('p').innerText = data.palavra;
+                document.getElementById('i').innerText = data.instrucao;
+                window.a = data.audio;
+            } catch (err) {
+                document.getElementById('p').innerText = "Erro de conexão";
+                console.error(err);
+            }
+        }
+        load();
+    </script>
+</body>
+</html>
